@@ -31,8 +31,88 @@ function popup(feature, layer){
 };
 
 // Agregar capa en formato GeoJson
-L.geoJson(barrios).addTo(map);
+// L.geoJson(barrios).addTo(map);
 
 var barriosJS = L.geoJson(barrios,{
     onEachFeature: popup
+}).addTo(map);
+
+// Agregar coordenandas para dibujar una polilinea
+var coord_camino = [
+    [4.798039528031478, -74.03124090388363],
+    [4.79059838513191, -74.02832266048456],
+    [4.786663954996014, -74.02806516841994],
+    [4.784183541760121, -74.02832266048456],
+    [4.781275459625073, -74.02703520016145],
+    [4.777683105825763, -74.02617689327938],
+    [4.7735878498196636, -74.02655897938767],
+    [4.771834421730695, -74.02735291325358],
+    [4.770316205986422, -74.02692375981255]
+];
+
+var camino = L.polyline(coord_camino, {
+    color: "red"
+}).addTo(map);
+
+// Agregar marcador
+var marker_cerro = L.circleMarker(L.latLng(4.791132952755172, -73.99527784552215), {
+    radius: 6,
+    fillColor: "#ff0000",
+    color: "blue",
+    weight: 2,
+    opacity: 1,
+    fillOpacity: 0.6,
+}).addTo(map);
+
+// Agregar la leyenda
+const legend = L.control.legend({
+    position: "bottomright",
+    collapsed: false,
+    symbolWidth: 24,
+    opacity:1,
+    column:1,
+    legends: [
+        {
+            label: "Cerro Guayabos",
+            type: "circle",
+            radius: 6,
+            color: "blue",
+            fillColor: "#FF0000",
+            fillOpacity: 0.6,
+            weight: 2,
+            layers: [marker_cerro],
+            inactive: false,
+        }, {
+            label: "Carrera Septima",
+            type: "polyline",
+            color: "#FF0000",
+            fillColor: "#FF0000",
+            weight: 2,
+            layers: camino
+        },  {
+            label: "Barrios",
+            type: "rectangle",
+            color: "#0074f0",
+            fillColor: "#009ff0",
+            weight: 2,
+            layers: barriosJS,barrios
+        }, {
+            label: "Marcador",
+            type: "image",
+            url: "Leaflet.Legend-master/examples/marker/purple.png"
+        },{
+            label: "Linea Punteada",
+            type: "polyline",
+            color: "#0000FF",
+            fillColor: "#0000FF",
+            dashArray: [5, 5],
+            weight: 2
+        }, {
+            label: "Poligono",
+            type: "polygon",
+            sides: 5,
+            color: "#FF0000",
+            fillColor: "#FF0000",
+            weight: 2
+        }]
 }).addTo(map);
