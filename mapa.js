@@ -158,3 +158,44 @@ function style(feature){
         fillOpacity: 0.7
     };
 }
+
+// AGregar interaccion del puntero con la capa para resaltar el objeto
+function highlightFeature(e) {
+    var layer = e.target;
+    layer.setStyle({
+        weight: 5,
+        color: '#666',
+        dashArray: '',
+        fillOpacity: 0.7
+    });
+    info.update(layer.feature.properties);
+};
+
+// Configurar los cambios de resaltado y zoom de la capa
+var barriosJS;
+
+function resetHighlight(e){
+    barriosJS.resetStyle(e.target);
+    info.update();
+}
+
+function zoomToFeature(e){
+    map.fitBounds(e.target.getBounds());
+}
+
+function onEachFeature(feature, layer){
+    layer.on({
+        mouseover: highlightFeature,
+        mouseout: resetHighlight,
+        click: zoomToFeature
+    });
+}
+
+// Agregar capa en formato GeoJson
+var barriosJS = L.geoJson(barrios,{
+    style: style,
+    onEachFeature: onEachFeature
+}).addTo(map);
+
+// Agregar atribucion
+map.attributionControl.addAttribution('Viviendas en Bogotá &copy; <a href="https://www.dane.gov.co/">DANE</a>');
