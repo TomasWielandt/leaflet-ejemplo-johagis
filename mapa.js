@@ -120,6 +120,12 @@ const estilo2 = {
     fillOpacity: 0.3
 };
 
+const estilo3 = {
+    opacity: 0.5,        
+    fillColor: 'blue',
+    fillOpacity: 0.3
+};
+
 // Agregar un círculo
 const circulo = L.circle([6.636254,-73.223129],{
     radius: 300,
@@ -133,9 +139,34 @@ const circulo2 = L.circle([6.637636243366182,-73.21380513022108],{
 
 // Agregar tiempo para que se cambie el tamaño del radio
 setTimeout(() => {
-    // circulo.setRadius(500);
-    // circulo.setStyle(estilo2);
+    circulo.setRadius(500);
+    circulo.setStyle(estilo2);
 }, 10000);
+
+// Agregar un rectangulo
+var definirRectangulo = [[10.423362, -75.541809], [10.414876, -75.526538]];
+
+L.rectangle(definirRectangulo, estilo2).addTo(map);
+
+//map.fitBounds(definirRectangulo);
+
+var vertices = [
+    [10.423960, -75.553637],
+    [10.431409, -75.540513],
+    [10.424079, -75.530062],
+    [10.413721, -75.528077],
+    [10.410893, -75.540472],
+    [10.409100, -75.549262]
+];
+
+var poligono = L.polygon(vertices, estilo3).addTo(map);
+
+map.fitBounds(poligono.getBounds());
+
+poligono.bringToBack();
+
+const formatoGeoJson = poligono.toGeoJSON();
+console.log(formatoGeoJson);
 
 // Agregar la leyenda
 const legend = L.control
