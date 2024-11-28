@@ -27,3 +27,14 @@ select {
     margin: 0 0 5px; 
     color: #777; 
 }
+
+/* Para definir el diseño del objeto al pasar el mouse*/
+#sidebar li:hover {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* Para esconder un objeto*/
+.hidden {
+    display: none;
+}
