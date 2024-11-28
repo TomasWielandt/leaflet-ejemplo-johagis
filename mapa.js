@@ -8,7 +8,7 @@ let map = L.map("map").setView([4.639386, -74.082412], 5.3);
 // Agregar mapa base de OpenStreetMap
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     minZoom:3,
-    maxZoom: 14,
+    maxZoom: 16,
   attribution:
     '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 }).addTo(map);
@@ -71,21 +71,76 @@ var camino = L.polyline(coord_camino, {
 }).addTo(map);
 
 // Agregar marcador
-var marker_cerro = L.circleMarker(
-  L.latLng(4.791132952755172, -73.99527784552215),
-  {
-    radius: 6,
-    fillColor: "#ff0000",
-    color: "blue",
+// var marker_cerro = L.circleMarker(
+//   L.latLng(4.791132952755172, -73.99527784552215),
+//   {
+//     radius: 6,
+//     fillColor: "#ff0000",
+//     color: "blue",
+//     weight: 2,
+//     opacity: 1,
+//     fillOpacity: 0.6,
+//   }
+// ).addTo(map);
+
+// Configurar Ícono
+const icono = L.icon({
+    iconUrl: './assets/images/montana.png',
+    iconSize: [26, 26],
+    iconAnchor: [13, 26],
+    popupAnchor: [-3, -76],
+});
+
+// Agregar el ícono al marker
+const marker_cerro = L.marker(
+    L.latLng(4.791132952755172, -73.99527784552215),
+    {
+      opacity: 1,
+      icon: icono,
+      draggable: true
+    }
+  ).addTo(map);
+
+// Estilo para el círculo
+const estilo = {
+    stroke: true,
+    color: 'red',
     weight: 2,
+    opacity: 0.5,
+    fillColor: 'grey',
+    fillOpacity: 0.3
+};
+
+const estilo2 = {
+    stroke: true,
+    color: 'blue',
+    weight: 3,
     opacity: 1,
-    fillOpacity: 0.6,
-  }
-).addTo(map);
+    fillColor: 'green',
+    fillOpacity: 0.3
+};
+
+// Agregar un círculo
+const circulo = L.circle([6.636254,-73.223129],{
+    radius: 300,
+    ...estilo
+}).addTo(map);
+
+const circulo2 = L.circle([6.637636243366182,-73.21380513022108],{
+    radius: 500,
+    ...estilo2
+}).addTo(map);
+
+// Agregar tiempo para que se cambie el tamaño del radio
+setTimeout(() => {
+    // circulo.setRadius(500);
+    // circulo.setStyle(estilo2);
+}, 10000);
 
 // Agregar la leyenda
 const legend = L.control
   .legend({
+    title: 'Leyenda',
     position: "bottomright",
     collapsed: false,
     symbolWidth: 24,
